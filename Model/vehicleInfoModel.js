@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-    vehicle_id: String,
     v_type: String,
     v_name: String,
     v_ownername: String,
