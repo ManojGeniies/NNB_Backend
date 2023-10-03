@@ -1,4 +1,4 @@
-const locationModel = require("../Model/locationModel")
+const locationModel = require("../Model/locationModels")
 
 const controller = {
     async insertLocation(req, res) {
