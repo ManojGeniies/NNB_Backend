@@ -1,4 +1,4 @@
-const LocationModel = require("../Model/locationModel");
+const LocationModel = require("../Model/locationModels");
 const activeVehiclesModel = require("../Model/activeVehiclesModel")
 
 const controller = {
