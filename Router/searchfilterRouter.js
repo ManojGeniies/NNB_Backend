@@ -1,6 +1,6 @@
 const searchFilter = require("../Controller/searchfilterController");
 const router = require("express").Router();
 
-router.get("/filter", searchFilter.search)
+router.post("/search", searchFilter.search);
 
-module.exports = router
+module.exports = router;
