@@ -5,7 +5,7 @@ const schema = mongoose.Schema({
     v_name: String,
     v_ownername: String,
     v_owner_mobile: Number,
-    v_reg_number: Number,
+    v_reg_number: String,
     v_tax_upto: String,
     v_color: String,
     v_reg_date: Date,

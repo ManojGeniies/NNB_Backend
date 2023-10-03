@@ -7,6 +7,8 @@ require("dotenv").config();
 
 // Router
 const filterRoute = require("./Router/filterRouter");
+const vehicleinforoute = require("./Router/vehicleRouter")
+const locationRoute = require("./Router/locationRouter")
 
 // Middlewares
 app.use(helmet());
@@ -22,6 +24,8 @@ dbConnect(process.env.MONGO_URL);
 
 // API Routing
 app.use("/", filterRoute);
+app.use("/", vehicleinforoute);
+app.use("/", locationRoute);
 
 // Server listening PORT
 app.listen(process.env.PORT || 3001, () => {
