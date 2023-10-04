@@ -7,7 +7,7 @@ const controller = {
       const { from } = req.query;
 
       const fromLocationId = await locationModel
-        .findOne({ location_name: from })
+        .findOne({ locationName: from })
         .select("_id");
 
       const [vehiclesData] = await activeVehiclesModel

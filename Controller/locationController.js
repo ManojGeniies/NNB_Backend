@@ -3,12 +3,12 @@ const locationModel = require("../Model/locationModels");
 const controller = {
   async insertLocation(req, res) {
     try {
-      const { location_name, latitude, longitude, created_date } = req.body;
+      const { locationName, latitude, longitude, createdAt } = req.body;
       const locationInsert = await locationModel.create({
-        location_name: location_name.toLowerCase(),
+        locationName: locationName.toLowerCase(),
         latitude,
         longitude,
-        created_date,
+        createdAt,
       });
       res.status(201).json({
         status: true,

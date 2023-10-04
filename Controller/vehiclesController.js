@@ -1,4 +1,5 @@
 const vehicleInfoModel = require("../Model/vehicleInfoModel");
+const driverInfoModel = require("../Model/driverInfoModel")
 
 const controller = {
     async insertVechileinfo(req, res) {
@@ -25,7 +26,7 @@ const controller = {
             const findMobilenum = await vehicleInfoModel.findOne({ ownerMobile })
             const findRegnum = await vehicleInfoModel.findOne({ vehicleRegistrationNum })
             const insertInfo = async () => {
-                const registerVechile = await vehicleInfoModel.create({
+                const registerVehicle = await vehicleInfoModel.create({
                     vehicleType,
                     vehicleName,
                     ownerName,
@@ -44,8 +45,14 @@ const controller = {
                     activeStatus,
                     documentationAt
                 });
-                res.status(200).json({ status: true, message: 'New vehicle info register success', registerVechile });
+                const createDriver = await driverInfoModel.create({
+                    vehicleId: registerVehicle._id,
+                    joiningDate: Date.now(),
+                    paymentStatus
+                })
+                res.status(200).json({ status: true, message: 'New vehicle info register success', registerVehicle, createDriver });
             }
+
             if (!findRegnum) {
                 if (!findMobilenum) {
                     insertInfo()

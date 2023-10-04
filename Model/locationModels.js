@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-  location_name: String,
+  locationName: String,
   latitude: {
     type: String,
     default: "Point",
@@ -10,7 +10,10 @@ const schema = mongoose.Schema({
     type: String,
     default: "Point",
   },
-  created_date: Date,
+  createdAt: {
+    type: Date,
+    default: () => Date.now()
+  },
 });
 
 module.exports = mongoose.model("location", schema);

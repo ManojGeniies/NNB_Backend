@@ -6,18 +6,36 @@ const schema = mongoose.Schema({
     ownerName: String,
     ownerMobile: String,
     vehicleRegistrationNum: String,
-    vehicleRegistrationAt:Date,
+    vehicleRegistrationAt: {
+        type: Date,
+        default: () => Date.now()
+    },
     taxUpto: String,
     color: String,
     seatCapacity: String,
     insurenceType: String,
-    insurenceUpto: Date,
-    polutionUpto: Date,
-    fitnessUpto: Date,
+    insurenceUpto: {
+        type: Date,
+        default: () => Date.now()
+    },
+    polutionUpto: {
+        type: Date,
+        default: () => Date.now()
+    },
+    fitnessUpto: {
+        type: Date,
+        default: () => Date.now()
+    },
     fuelType: String,
-    attachedAt: Date,
+    attachedAt: {
+        type: Date,
+        default: () => Date.now()
+    },
     activeStatus: String,
-    documentationAt: Date,
+    documentationAt: {
+        type: Date,
+        default: () => Date.now()
+    },
 });
 
 module.exports = mongoose.model("vehicle_info", schema)
