@@ -3,9 +3,9 @@ const locationModel = require("../Model/locationModels");
 const controller = {
   async search(req, res) {
     try {
-      const { location_name } = req.query;
+      const { locationName } = req.query;
       const findLocation = await locationModel.find({
-        $or: [{ location_name: { $regex: location_name } }],
+        $or: [{ locationName: { $regex: locationName } }],
       });
 
       return res.status(200).json({ status: true, message: findLocation });
