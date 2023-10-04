@@ -11,10 +11,10 @@ const controller = {
         .select("_id");
 
       const [vehiclesData] = await activeVehiclesModel
-        .find({ location_id: fromLocationId._id })
+        .find({ locationId: fromLocationId._id })
         .populate({
-          path: "location_id vehicle_id",
-          select: "location_name v_ownername"
+          path: "locationId vehicleId",
+          select: "locationName ownerName",
         });
 
       if (vehiclesData) {

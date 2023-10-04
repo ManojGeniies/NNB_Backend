@@ -8,7 +8,7 @@ const schema = mongoose.Schema({
     vehicleRegistrationNum: String,
     vehicleRegistrationAt: {
         type: Date,
-        default: () => Date.now()
+        default: () => Date
     },
     taxUpto: String,
     color: String,
@@ -16,25 +16,25 @@ const schema = mongoose.Schema({
     insurenceType: String,
     insurenceUpto: {
         type: Date,
-        default: () => Date.now()
+        default: () => Date
     },
     polutionUpto: {
         type: Date,
-        default: () => Date.now()
+        default: () => Date
     },
     fitnessUpto: {
         type: Date,
-        default: () => Date.now()
+        default: () => Date
     },
     fuelType: String,
     attachedAt: {
         type: Date,
-        default: () => Date.now()
+        default: () => Date
     },
     activeStatus: String,
     documentationAt: {
         type: Date,
-        default: () => Date.now()
+        default: () => Date
     },
 });
 

@@ -21,7 +21,6 @@ const controller = {
                 fuelType,
                 attachedAt,
                 activeStatus,
-                documentationAt
             } = req.body
             const findMobilenum = await vehicleInfoModel.findOne({ ownerMobile })
             const findRegnum = await vehicleInfoModel.findOne({ vehicleRegistrationNum })
@@ -43,7 +42,7 @@ const controller = {
                     fuelType,
                     attachedAt,
                     activeStatus,
-                    documentationAt
+                    documentationAt: Date.now()
                 });
                 const createDriver = await driverInfoModel.create({
                     vehicleId: registerVehicle._id,
