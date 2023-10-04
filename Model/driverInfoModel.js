@@ -5,26 +5,23 @@ const schema = mongoose.Schema({
     locationId: String,
     driverName: String,
     licenseNumber: String,
-    mobileNumber: String,
-    aadharNumber: String,
+    mobileNumber: Number,
+    aadharNumber: Number,
     panCard: String,
     licenseType: String,
     bloodGroup: String,
-    driverExperience: String,
+    drivingExperience: String,
     address1: String,
     address2: String,
     city: String,
-    pincode: String,
+    pincode: Number,
     emergencyContactNum: String,
     joiningDate: {
         type: Date,
         default: () => Date.now()
     },
     activeStatus: String,
-    paymentStatus: {
-        type: String,
-        default: "Yes"
-    }
+    paymentStatus: String
 });
 
 module.exports = mongoose.model("driver_info", schema)

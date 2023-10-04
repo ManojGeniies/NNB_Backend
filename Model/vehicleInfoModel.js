@@ -4,33 +4,18 @@ const schema = mongoose.Schema({
     vehicleType: String,
     vehicleName: String,
     ownerName: String,
-    ownerMobile: String,
+    ownerMobile: Number,
     vehicleRegistrationNum: String,
-    vehicleRegistrationAt: {
-        type: Date,
-        default: () => Date
-    },
+    vehicleRegistrationAt: Date,
     taxUpto: String,
     color: String,
     seatCapacity: String,
     insurenceType: String,
-    insurenceUpto: {
-        type: Date,
-        default: () => Date
-    },
-    polutionUpto: {
-        type: Date,
-        default: () => Date
-    },
-    fitnessUpto: {
-        type: Date,
-        default: () => Date
-    },
+    insurenceUpto: Date,
+    polutionUpto: Date,
+    fitnessUpto: Date,
     fuelType: String,
-    attachedAt: {
-        type: Date,
-        default: () => Date
-    },
+    attachedAt: Date,
     activeStatus: String,
     documentationAt: {
         type: Date,

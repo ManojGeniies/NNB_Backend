@@ -47,7 +47,7 @@ const controller = {
                 const createDriver = await driverInfoModel.create({
                     vehicleId: registerVehicle._id,
                     joiningDate: Date.now(),
-                    paymentStatus
+                    paymentStatus:"Yes"
                 })
                 res.status(200).json({ status: true, message: 'New vehicle info register success', registerVehicle, createDriver });
             }
