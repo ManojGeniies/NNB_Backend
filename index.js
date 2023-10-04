@@ -11,6 +11,7 @@ const vehicleinforoute = require("./Router/vehicleRouter")
 const locationRoute = require("./Router/locationRouter")
 const searchRouter = require("./Router/searchfilterRouter")
 const activeVehicleRoute = require("./Router/activeVehicleRouter")
+const driverInfoRoute = require("./Router/driverInfoRouter")
 
 // Middlewares
 app.use(helmet());
@@ -30,6 +31,7 @@ app.use("/", vehicleinforoute);
 app.use("/", locationRoute);
 app.use("/", searchRouter)
 app.use("/", activeVehicleRoute)
+app.use("/", driverInfoRoute)
 
 // Server listening PORT
 app.listen(process.env.PORT || 3001, () => {

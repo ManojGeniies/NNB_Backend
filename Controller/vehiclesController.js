@@ -4,49 +4,47 @@ const controller = {
     async insertVechileinfo(req, res) {
         try {
             const {
-                v_type,
-                v_name,
-                v_ownername,
-                v_owner_mobile,
-                v_reg_number,
-                v_tax_upto,
-                v_color,
-                v_reg_date,
-                v_seat_capacity,
-                v_model_year,
-                v_insurance_type,
-                v_insurance_upto,
-                v_polution_upto,
-                v_fitness_upto,
-                v_fuel_type,
-                v_attach_date,
-                v_active_status,
-                created_date
+                vehicleType,
+                vehicleName,
+                ownerName,
+                ownerMobile,
+                vehicleRegistrationNum,
+                vehicleRegistrationAt,
+                taxUpto,
+                color,
+                seatCapacity,
+                insurenceType,
+                insurenceUpto,
+                polutionUpto,
+                fitnessUpto,
+                fuelType,
+                attachedAt,
+                activeStatus,
+                documentationAt
             } = req.body
-            const findMobilenum = await vehicleInfoModel.findOne({ v_owner_mobile })
-            const findRegnum = await vehicleInfoModel.findOne({ v_reg_number })
+            const findMobilenum = await vehicleInfoModel.findOne({ ownerMobile })
+            const findRegnum = await vehicleInfoModel.findOne({ vehicleRegistrationNum })
             const insertInfo = async () => {
                 const registerVechile = await vehicleInfoModel.create({
-                    v_type,
-                    v_name,
-                    v_ownername,
-                    v_owner_mobile,
-                    v_reg_number,
-                    v_tax_upto,
-                    v_color,
-                    v_reg_date,
-                    v_seat_capacity,
-                    v_model_year,
-                    v_insurance_type,
-                    v_insurance_upto,
-                    v_polution_upto,
-                    v_fitness_upto,
-                    v_fuel_type,
-                    v_attach_date,
-                    v_active_status,
-                    created_date
+                    vehicleType,
+                    vehicleName,
+                    ownerName,
+                    ownerMobile,
+                    vehicleRegistrationNum,
+                    vehicleRegistrationAt,
+                    taxUpto,
+                    color,
+                    seatCapacity,
+                    insurenceType,
+                    insurenceUpto,
+                    polutionUpto,
+                    fitnessUpto,
+                    fuelType,
+                    attachedAt,
+                    activeStatus,
+                    documentationAt
                 });
-                res.status(200).json({ status: true, message: 'New vechile info register success', registerVechile });
+                res.status(200).json({ status: true, message: 'New vehicle info register success', registerVechile });
             }
             if (!findRegnum) {
                 if (!findMobilenum) {
@@ -55,7 +53,7 @@ const controller = {
                     res.status(403).json({ status: false, message: 'Mobile number already exist' });
                 }
             } else {
-                res.status(403).json({ status: false, message: 'Vechile already registerd' });
+                res.status(403).json({ status: false, message: 'Vehicle already registerd' });
             }
         } catch (error) {
             res.status(500).json({ status: false, message: error });

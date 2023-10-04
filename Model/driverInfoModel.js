@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-    driver_id: String,
     vehicle_id: String,
     location_id: String,
     d_name: String,
@@ -17,9 +16,10 @@ const schema = mongoose.Schema({
     d_city: String,
     d_pincode: String,
     emg_contact: String,
-    joining_date: String,
+    joining_date: Date,
     active_status: String,
     payment_status: String,
 });
 
 module.exports = mongoose.model("driver_info", schema)
+
