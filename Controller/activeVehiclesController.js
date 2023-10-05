@@ -7,16 +7,15 @@ const controller = {
       const { from } = req.query;
 
       const fromLocationId = await locationModel
-        .findOne({ location_name: from })
+        .findOne({ locationName: from })
         .select("_id");
 
       const [vehiclesData] = await activeVehiclesModel
         .find({ locationId: fromLocationId._id })
         .populate({
           path: "locationId vehicleId",
-          select: "locationName ownerName",
+          select: "locationName ownerName activeStatus",
         });
-
       if (vehiclesData) {
         return res.status(200).json({ status: true, data: vehiclesData });
       } else {

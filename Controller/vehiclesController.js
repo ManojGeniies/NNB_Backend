@@ -48,7 +48,7 @@ const controller = {
                     vehicleId: registerVehicle._id,
                     joiningDate: Date.now(),
                     paymentStatus:"Yes"
-                })
+                });
                 res.status(200).json({ status: true, message: 'New vehicle info register success', registerVehicle, createDriver });
             }
 

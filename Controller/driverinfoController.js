@@ -1,4 +1,5 @@
 const driverInfo = require("../Model/driverInfoModel")
+const userModel = require("../Model/userModel")
 
 const controller = {
     async insertDriverInfo(req, res) {
