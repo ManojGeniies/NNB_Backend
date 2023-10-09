@@ -20,7 +20,10 @@ const schema = mongoose.Schema({
         type: Date,
         default: () => Date.now()
     },
-    activeStatus: String,
+    activeStatus: {
+        type: Boolean,
+        default: false
+    },
     paymentStatus: String
 });
 

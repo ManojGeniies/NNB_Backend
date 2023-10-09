@@ -60,17 +60,26 @@ const controller = {
           const compare = await bcryptjs.compare(password, userExist.password);
           if (compare) {
             const token = jwt.sign(
-              { id: userExist._id, mobileNumber },
-              "abcd",
+              { id: userExist._id, mobileNumber }, "abcd",
               {
                 expiresIn: "1hr",
               }
             );
-
+            if (token) {
+              await driverInfo.findOneAndUpdate({ mobileNumber }, {
+                $set: {
+                  activeStatus: true
+                }
+              })
+            } else {
+              return res
+                .status(401)
+                .json({ status: false, message: "Invalid Token" });
+            }
             return res.status(201).json({
               status: true,
               message: "Login successfully",
-              token: token,
+              token: token
             });
           } else {
             return res
@@ -96,8 +105,32 @@ const controller = {
           .status(403)
           .json({ status: false, message: "Please fill all the inputs" });
       }
-    } catch (error) {}
+    } catch (error) {
+      return res.status(500).json({ status: false, message: error });
+    }
   },
+
+  async userLogout(req, res) {
+    try {
+      // const token = jwt.verify(token, 'abcd')
+      // if (!token) {
+      //   return res.status(401).json({ status: false, message: "Logout falied" });
+      // } else {
+      //   jwt.destroy(token)
+      // }
+      const authHeader = req.headers["abcd"]
+      jwt.sign(authHeader, "", { expiresIn: 1 }, (logout) => {
+        if (logout) {
+          return res.status(201).json({ status: true, message: "Logout success" })
+        } else {
+          return res.status(401).json({ status: false, message: "Failed" });
+        }
+      })
+    } catch (error) {
+      return res.status(500).json({ status: false, message: error });
+    }
+  }
+
 };
 
 module.exports = controller;
