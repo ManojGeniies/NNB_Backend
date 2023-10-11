@@ -16,7 +16,10 @@ const schema = mongoose.Schema({
     fitnessUpto: Date,
     fuelType: String,
     attachedAt: Date,
-    activeStatus: String,
+    activeStatus: {
+        type: Boolean,
+        default: false
+    },
     documentationAt: {
         type: Date,
         default: () => Date

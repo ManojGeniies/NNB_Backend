@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-    vehicleId: String,
+    vehicleId: { type: mongoose.SchemaTypes.ObjectId, ref: "vehicle_info" },
     locationId: String,
     driverName: String,
     licenseNumber: String,
