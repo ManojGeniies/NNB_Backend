@@ -34,14 +34,9 @@ const controller = {
 
   async createActiveVehicles(req, res, value) {
     try {
-
       const DriverDetails = await driverInfoModel.findOne({ mobileNumber: value.mobileNumber })
       const locationDetails = await locationModels.findOne({ locationName: value.location })
-      const vehicleDetails = await vehicleInfoModel.find({ _id: DriverDetails.vehicleId }).select({ "_id": 1, vehicleType: 1, activeStatus: 1 })
-
-      console.log(">>>>>>", DriverDetails._id);
-      console.log(">>>>>>", locationDetails._id);
-      console.log(">>>>>>", vehicleDetails.activeStatus);
+      const vehicleDetails = await vehicleInfoModel.findOne({ _id: DriverDetails.vehicleId })
 
       const activeVehicles = await activeVehiclesModel.create({
         locationId: locationDetails._id,
@@ -51,9 +46,9 @@ const controller = {
         activeStatus: vehicleDetails.activeStatus,
         updatedAt: Date.now(),
       });
-      res.status(200).json({ status: true, message: 'Active vehicles successfully generated....!', activeVehicles });
+      // return res.status(200).json({ status: true, message: 'Active vehicles successfully generated....!', activeVehicles });
     } catch (error) {
-      res.status(500).json({ status: false, message: error });
+      return res.status(500).json({ status: false, message: error });
     }
   }
 

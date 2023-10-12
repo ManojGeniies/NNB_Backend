@@ -1,9 +1,10 @@
 const userModel = require("../Model/userModel");
 const driverInfo = require("../Model/driverInfoModel");
-const vehicleInfo = require("../Model/vehicleInfoModel")
-const activeVehicleController = require("../Controller/activeVehiclesController")
+const vehicleInfo = require("../Model/vehicleInfoModel");
+const activeVehicleController = require("../Controller/activeVehiclesController");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const activeVehiclesModel = require("../Model/activeVehiclesModel");
 
 const controller = {
   async createUserPassword(req, res) {
@@ -19,9 +20,7 @@ const controller = {
         const findDriverId = findDriver._id;
 
         const passwordCreate = async () => {
-
           if (password == confirmPassword) {
-
             const salt = await bcryptjs.genSalt(10);
             const passwordEncrypt = await bcryptjs.hash(password, salt);
 
@@ -36,7 +35,6 @@ const controller = {
               message: "User credentials created success...!",
               userPassword,
             });
-
           } else {
             return res.status(401).json({
               status: false,
@@ -65,30 +63,54 @@ const controller = {
   async UserLogin(req, res) {
     try {
       const { mobileNumber, password } = req.body;
+
+      const existUserMobile = await userModel.findOne({ mobileNumber });
+      const existDriverDetails = await driverInfo.findOne({
+        _id: existUserMobile.driverId,
+      });
+      const activeVhicleDetails = await activeVehiclesModel.findOne({
+        driverId: existUserMobile.driverId,
+      });
+
+      const existDriverMobileNumber = existDriverDetails.mobileNumber;
+
       if (mobileNumber && password) {
         const passwordChecking = async (userExist) => {
           const compare = await bcryptjs.compare(password, userExist.password);
           if (compare) {
             const token = jwt.sign(
-              { id: userExist._id, mobileNumber }, "abcd",
+              { id: userExist._id, mobileNumber },
+              "abcd",
               {
                 expiresIn: "1hr",
               }
             );
+
             // Change driverinfo active status
             if (token) {
-              const driverDetails = await driverInfo.findOneAndUpdate({ mobileNumber }, {
-                $set: {
-                  activeStatus: true
-                }
-              });
+              // already login or not
+              if (!activeVhicleDetails) {
+                const driverDetails = await driverInfo.findOneAndUpdate(
+                  { mobileNumber },
+                  { $set: { activeStatus: true } }
+                );
 
-              // Change vehicleInfo active status
-              await vehicleInfo.findOneAndUpdate({ _id: driverDetails.vehicleId }, { $set: { activeStatus: true } })
+                // Change vehicleInfo active status
+                await vehicleInfo.findOneAndUpdate(
+                  { _id: driverDetails.vehicleId },
+                  { $set: { activeStatus: true } }
+                );
 
-              // Call the active vahicles controller and create the active vehicles
-              await activeVehicleController.createActiveVehicles(req, res, { mobileNumber, location: req.body.location })
-
+                // Call the active vahicles controller and create the active vehicles
+                await activeVehicleController.createActiveVehicles(req, res, {
+                  mobileNumber,
+                  location: req.body.location,
+                });
+              } else {
+                return res
+                  .status(403)
+                  .json({ status: false, message: "Something went wrong" });
+              }
             } else {
               return res
                 .status(401)
@@ -97,7 +119,7 @@ const controller = {
             return res.status(201).json({
               status: true,
               message: "Login successfully",
-              token: token
+              token: token,
             });
           } else {
             return res
@@ -105,11 +127,7 @@ const controller = {
               .json({ status: false, message: "Invalid password" });
           }
         };
-        const existUserMobile = await userModel.findOne({ mobileNumber });
-        const existDriverDetails = await driverInfo.findOne({
-          _id: existUserMobile.driverId,
-        });
-        const existDriverMobileNumber = existDriverDetails.mobileNumber;
+
         if (existDriverMobileNumber == mobileNumber) {
           passwordChecking(existUserMobile);
         } else {
@@ -130,28 +148,37 @@ const controller = {
 
   async userLogout(req, res) {
     try {
-      const { id } = req.params
-      const logOut = await userModel.findById({ _id: id })
-      if (logOut) {
-        // Change driverinfo active status
-        await driverInfo.findOneAndUpdate({ $set: { activeStatus: false } })
+      const removeActiveVehicles = await activeVehiclesModel.findOne({
+        driverId: req.params.id,
+      });
+      if (removeActiveVehicles) {
+        await activeVehiclesModel.deleteOne({
+          driverId: removeActiveVehicles.driverId,
+        });
 
-        // Change vehicleinfo active status
-        const findVehicleId = await driverInfo.findOne({ id: req.body.vehicleId })
-        if (findVehicleId) {
-          await vehicleInfo.findOneAndUpdate({ _id: findVehicleId.vehicleId }, { $set: { activeStatus: false } })
-        } else {
-          return res.status(401).json({ status: false, message: "VehicleId not found" });
-        }
-        return res.status(200).json({ status: true, message: 'You have been logout' })
+        // Change driverinfo active status
+        const driverDetails = await driverInfo.findOneAndUpdate(
+          { _id: req.params.id },
+          { $set: { activeStatus: false } }
+        );
+
+        // // Change vehicleInfo active status
+        await vehicleInfo.findOneAndUpdate(
+          { _id: driverDetails.vehicleId },
+          { $set: { activeStatus: false } }
+        );
+        return res
+          .status(200)
+          .json({ status: true, message: "You have been logout" });
       } else {
-        return res.status(401).json({ status: false, message: 'Logout falied' })
+        return res
+          .status(401)
+          .json({ status: false, message: "Something went wrong" });
       }
     } catch (error) {
       return res.status(500).json({ status: false, message: error });
     }
-  }
-
+  },
 };
 
 module.exports = controller;
