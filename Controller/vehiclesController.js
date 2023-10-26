@@ -59,7 +59,7 @@ const controller = {
                     res.status(403).json({ status: false, message: 'Mobile number already exist' });
                 }
             } else {
-                res.status(403).json({ status: false, message: 'Vehicle already registerd' });
+                res.status(403).json({ status: false, message: 'Vehicle already registered' });
             }
         } catch (error) {
             res.status(500).json({ status: false, message: error });

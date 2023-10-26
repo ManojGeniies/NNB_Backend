@@ -32,7 +32,7 @@ const controller = {
 
             return res.status(200).json({
               status: true,
-              message: "User credentials created success...!",
+              message: "Password Updated...!",
               userPassword,
             });
           } else {
