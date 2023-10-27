@@ -25,6 +25,7 @@ const controller = {
       const driverId = req.params.id;
       const findDriverLicense = await driverInfo.findOne({ licenseNumber });
       const findDriverAadhar = await driverInfo.findOne({ aadharNumber });
+      const findMobileNumber = await driverInfo.findOne({ mobileNumber });
 
       const insertInfo = async () => {
         const registerDriver = await driverInfo.findOneAndUpdate(
@@ -63,7 +64,14 @@ const controller = {
       };
       if (!findDriverAadhar) {
         if (!findDriverLicense) {
-          insertInfo();
+          if (!findMobileNumber) {
+            insertInfo();
+          } else {
+            res.status(403).json({
+              status: false,
+              message: "Driver's Mobile number already exist",
+            });
+          }
         } else {
           res.status(403).json({
             status: false,
@@ -75,6 +83,16 @@ const controller = {
           .status(403)
           .json({ status: false, message: "Aadhaar number already exist" });
       }
+    } catch (error) {
+      res.status(500).json({ status: false, message: error });
+    }
+  },
+
+  async allDrivers(req, res) {
+    try {
+      const driversDetails = await driverInfo.find()
+
+      res.status(200).json({status: true, message: driversDetails})
     } catch (error) {
       res.status(500).json({ status: false, message: error });
     }

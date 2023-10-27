@@ -1,5 +1,6 @@
 const vehicleInfoModel = require("../Model/vehicleInfoModel");
-const driverInfoModel = require("../Model/driverInfoModel")
+const driverInfoModel = require("../Model/driverInfoModel");
+const { find } = require("../Model/userModel");
 
 const controller = {
     async insertVechileinfo(req, res) {
@@ -22,7 +23,7 @@ const controller = {
                 attachedAt,
                 activeStatus,
             } = req.body
-            const findMobilenum = await vehicleInfoModel.findOne({ ownerMobile })
+            // const findMobilenum = await vehicleInfoModel.findOne({ ownerMobile })
             const findRegnum = await vehicleInfoModel.findOne({ vehicleRegistrationNum })
             const insertInfo = async () => {
                 const registerVehicle = await vehicleInfoModel.create({
@@ -53,14 +54,24 @@ const controller = {
             }
 
             if (!findRegnum) {
-                if (!findMobilenum) {
+                // if (!findMobilenum) {
                     insertInfo()
-                } else {
-                    res.status(403).json({ status: false, message: 'Mobile number already exist' });
-                }
+                // } else {
+                //     res.status(403).json({ status: false, message: 'Mobile number already exist' });
+                // }
             } else {
                 res.status(403).json({ status: false, message: 'Vehicle already registered' });
             }
+        } catch (error) {
+            res.status(500).json({ status: false, message: error });
+        }
+    },
+
+    async allVehicles(req, res) {
+        try {
+            const vehicleDetails = await vehicleInfoModel.find();
+
+            res.status(200).json({status: true, message: vehicleDetails})
         } catch (error) {
             res.status(500).json({ status: false, message: error });
         }
