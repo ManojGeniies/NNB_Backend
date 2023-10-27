@@ -1,6 +1,5 @@
 const activeVehiclesModel = require("../Model/activeVehiclesModel");
 const locationModel = require("../Model/locationModels");
-const vehicleInfo = require("../Model/vehicleInfoModel");
 const driverInfoModel = require("../Model/driverInfoModel");
 const locationModels = require("../Model/locationModels");
 const vehicleInfoModel = require("../Model/vehicleInfoModel");
@@ -34,9 +33,15 @@ const controller = {
 
   async createActiveVehicles(req, res, value) {
     try {
-      const DriverDetails = await driverInfoModel.findOne({ mobileNumber: value.mobileNumber })
-      const locationDetails = await locationModels.findOne({ locationName: value.location })
-      const vehicleDetails = await vehicleInfoModel.findOne({ _id: DriverDetails.vehicleId })
+      const DriverDetails = await driverInfoModel.findOne({
+        mobileNumber: value.mobileNumber,
+      });
+      const locationDetails = await locationModels.findOne({
+        locationName: value.location,
+      });
+      const vehicleDetails = await vehicleInfoModel.findOne({
+        _id: DriverDetails.vehicleId,
+      });
 
       const activeVehicles = await activeVehiclesModel.create({
         locationId: locationDetails._id,
@@ -50,8 +55,21 @@ const controller = {
     } catch (error) {
       return res.status(500).json({ status: false, message: error });
     }
-  }
+  },
 
+  async allActiveVehicles(req, res) {
+    try {
+      const AllActiveVehicles = await activeVehiclesModel.find().populate({
+        path: "locationId vehicleId driverId",
+        select:
+          "locationName vehicleType vehicleName vehicleRegistrationNum seatCapacity activeStatus driverName mobileNumber",
+      });
+
+      res.status(200).json({ status: true, message: AllActiveVehicles });
+    } catch (error) {
+      return res.status(500).json({ status: false, message: error });
+    }
+  },
 };
 
 module.exports = controller;
