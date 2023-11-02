@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = function dbConnect(URL) {
     try {
-        mongoose.connect(URL, {
+        mongoose.connect(`mongodb+srv://admin:DevTeam123@cluster0.d42klce.mongodb.net/NNB`, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
