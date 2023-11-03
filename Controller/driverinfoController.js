@@ -91,8 +91,7 @@ const controller = {
   async allDrivers(req, res) {
     try {
       const driversDetails = await driverInfo.find()
-
-      res.status(200).json({status: true, message: driversDetails})
+      res.status(200).json({ status: true, message: driversDetails })
     } catch (error) {
       res.status(500).json({ status: false, message: error });
     }
