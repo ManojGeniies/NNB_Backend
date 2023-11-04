@@ -64,7 +64,6 @@ const controller = {
         select:
           "locationName vehicleType vehicleName vehicleRegistrationNum seatCapacity activeStatus driverName mobileNumber",
       });
-
       res.status(200).json({ status: true, message: AllActiveVehicles });
     } catch (error) {
       return res.status(500).json({ status: false, message: error });

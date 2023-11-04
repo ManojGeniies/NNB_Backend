@@ -14,6 +14,7 @@ const activeVehicleRoute = require("./Router/activeVehicleRouter");
 const driverInfoRoute = require("./Router/driverInfoRouter");
 const userRoute = require("./Router/userRouter");
 const endUserRoute = require("./Router/user/auth/endUserRouter");
+const userBookingRoute = require("./Router/user/booking/userBookingRouter")
 
 // Middlewares
 app.use(helmet());
@@ -36,6 +37,7 @@ app.use("/", activeVehicleRoute);
 app.use("/", driverInfoRoute);
 app.use("/", userRoute)
 app.use("/", endUserRoute);
+app.use("/", userBookingRoute);
 
 // Server listening PORT
 app.listen(process.env.PORT || 3001, () => {
